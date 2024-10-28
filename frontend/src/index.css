@@ -9,8 +9,8 @@
 }
 
 /* NOTE: Dark mode for Leaflet */
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   .map-tiles {
     filter: var(--map-tiles-filter, none);
   }
-}
+} */

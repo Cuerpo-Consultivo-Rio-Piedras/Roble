@@ -14,13 +14,12 @@ import { Loader2 } from 'lucide-react';
 //   className?: string;
 // };
 
-const SideBar = ({isLoading }) => {
+const SideBar = (className) => {
   return (
-    <div className={classNames('bg-gray-100 border-r py-2 px-2 overflow-y-scroll')}>
-      {isLoading && <Loader2 size={30} className="animate-spin my-auto w-full h-full" />}
-      <p>
-          Esta es una herramienta para darle seguimiento a proyectos de construcción dudosos en las
-          costas de Puerto Rico.
+    <div className={classNames('bg-gray-100 border-r py-2 px-2 overflow-y-scroll', className)}>
+      {/* {isLoading && <Loader2 size={30} className="animate-spin my-auto w-full h-full" />} */}
+        <p>
+          Herramienta para atender y entender los problemas del Casco Urbano de Rio Piedras
         </p>
     </div>
   );
