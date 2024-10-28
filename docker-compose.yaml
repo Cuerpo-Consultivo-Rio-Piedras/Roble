@@ -19,7 +19,9 @@ services:
       retries: 3
 
   web:
-    build: .
+    build: 
+      context: ./frontend
+      dockerfile: Dockerfile
     container_name: roble_web
     expose: 
       - 3000
