@@ -1,0 +1,42 @@
+FROM python:3.9.18-alpine
+
+ENV PYTHONUNBUFFERED 1
+
+# Set the working directory
+WORKDIR /usr/src/app
+
+# Install server dependencies
+# See more here: https://docs.djangoproject.com/en/5.0/ref/contrib/gis/install/geolibs/#installing-geospatial-libraries
+# Alpine Package  - PyPi Package - Reference
+# g++             - fiona        - https://stackoverflow.com/questions/58700451/alpine-error-during-installing-python-shapely
+# gdal (x2)       - gdal-config  - https://stackoverflow.com/a/50539325/13290655
+# geos (x2)       - shapely      - https://stackoverflow.com/questions/58700451/alpine-error-during-installing-python-shapely
+# musl-dev        - psycopg2     - https://stackoverflow.com/questions/46711990/error-pg-config-executable-not-found-when-installing-psycopg2-on-alpine-in-doc
+# postgresql-libs - psycopg2     - https://stackoverflow.com/questions/46711990/error-pg-config-executable-not-found-when-installing-psycopg2-on-alpine-in-dock
+# postgresql-dev  - psycopg2     - https://stackoverflow.com/questions/46711990/error-pg-config-executable-not-found-when-installing-psycopg2-on-alpine-in-dock
+# proj (x3)       - pyproj       - https://gis.stackexchange.com/questions/383726/unable-to-install-proj-related-python-packages-in-a-linux-alpine-environment
+RUN apk update
+RUN apk add --no-cache \
+    binutils \
+    g++ \
+    gdal \
+    gdal-dev \
+    geos \
+    geos-dev \
+    musl-dev \
+    postgresql-dev \
+    postgresql-libs \
+    proj \
+    proj-dev \
+    proj-util
+
+# Install app dependencies
+RUN pip install --upgrade pip
+COPY ./requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy the project code into the container
+COPY . .
+
+
+# CMD [ "ls" ]
