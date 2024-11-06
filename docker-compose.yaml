@@ -12,16 +12,16 @@ services:
       - 5432
     ports:
       - "5432:5432"
-    # healthcheck:
-    #   test: ["CMD-SHELL", "pg_isready"]
-    #   interval: 10s
-    #   timeout: 5s
-    #   retries: 3
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
 
   web:
     build: 
-      context: ./frontend
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: Dockerfile.frontend
     container_name: roble_web
     expose: 
       - 3000
@@ -30,8 +30,8 @@ services:
     
   backend: 
     build:
-      context: ./backend
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: Dockerfile.backend
     container_name: roble_backend
     command: sh -c " cd backend/roble; python3 manage.py migrate --noinput && python3 manage.py createsuperuser --noinput ; python3 manage.py runserver 0.0.0.0:8000"
     volumes:
@@ -42,5 +42,7 @@ services:
       - 8000
     env_file:
       - .env
+
     depends_on:
-      - db
+      db:
+        condition: service_healthy
