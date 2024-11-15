@@ -6,13 +6,35 @@ import { GeoJSON, useMap } from 'react-leaflet';
 
 
 // TODO: maybe randomize this thing?
-const setColor = () => {
-  return {
-    weight: 3,
-    stroke: true,
-    color: 'red',
-    fillColor: 'blue',
-  };
+const setColor = (clasiPut) => {
+  switch(clasiPut){
+    case "AGUA":
+      return {
+        weight: 5,
+        stroke: true,
+        color: 'blue',
+        fillColor: 'blue',
+      };
+    
+    case "VIAL":
+      return {
+        weight: 1,
+        stroke: true,
+        color: 'black',
+        fillColor: 'black',
+        fillOpacity: .25
+      };
+    
+    case "SU":
+      return {
+        weight: 2,
+        stroke: false,
+        color: 'red',
+        fillColor: "#f7c09a",
+        fillOpacity: .4
+      };
+  }
+  
 };
 
 const LandUseLayer = ({ landUse, onSelectedPropertyChange }) => {
@@ -22,11 +44,11 @@ const LandUseLayer = ({ landUse, onSelectedPropertyChange }) => {
   //   map.fitBounds(multipolygon.getBounds(), { animate: true });
   //   onSelectedPropertyChange(property);
   // };
-
+  const style = setColor(landUse.clasi_put)
   return (
     <GeoJSON
       data={landUse.geometry}
-      style={setColor}
+      style={style}
       // eventHandlers={{
       //   click: handleOnClick,
       // }}

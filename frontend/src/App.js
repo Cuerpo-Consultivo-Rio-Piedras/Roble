@@ -1,12 +1,8 @@
-// import logo from './logo.svg';
-// import './App.css';
-
 import React, { useEffect, useState } from 'react';
 
-import { MapContainer, TileLayer } from 'react-leaflet';
+import { MapContainer, TileLayer, LayersControl, LayerGroup } from 'react-leaflet';
 import SideBar from './Components/SideBar';
 import LandUseLayer from './Components/LandUseLayer';
-// import POIMarker from './Components/POIMarker'
 import { DEFAULT_MAP_CENTER, DEFAULT_MAP_ZOOM } from './constants';
 import PositionResetControl from './Components/PositionResetControl';
 import { API } from './Api';
@@ -16,8 +12,6 @@ import TransmissionLineLayer from './Components/TransmissionLineLayer';
 import StreetLayer from './Components/StreetLayer';
 
 const api = new API()
-
-
 
 function App() {
   // const [isSidebarLoading, setIsSidebarLoading] = useState(false);
@@ -66,64 +60,57 @@ function App() {
       <div className="flex md:flex-row flex-col-reverse h-full">
       <SideBar
           className="md:w-72 w-full h-full"
-          // property={selectedProperty}
-          // projects={selectedPropertyProjects || []}
-          // permits={selectedPropertyPermits || []}
-          // isSelected={isSelected}
-          // isLoading={isSidebarLoading}
         />
         <div className="w-full h-96 md:h-full">
           <MapContainer
             center={DEFAULT_MAP_CENTER}
             zoom={DEFAULT_MAP_ZOOM}
             className="h-full w-full outline-none"
+            maxZoom={25}
             >
             <TileLayer
               url="https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
               className="map-tiles"
             />
             <PositionResetControl position="topright" />
-            {/* {isLoading ? null : pois.map(poi => {return (<POIMarker poi={poi} POIMarker/>)})} */}
-            {landUses == null ? null : landUses.map((landUse) => (
-              <LandUseLayer
-                key={landUse.id}
-                landUse={landUse}
-                // onSelectedPropertyChange={handleOnSelectedPropertyChange}
-              />
-            ))}
-
-            {transmissionLines == null ? null : transmissionLines.map((landUse) => (
-              <TransmissionLineLayer
-                key={landUse.id}
-                landUse={landUse}
-                // onSelectedPropertyChange={handleOnSelectedPropertyChange}
-              />
-              ))}
-            {streets == null ? null : streets.map((street) => (
-              <StreetLayer
-                key={street.id}
-                street={street}
-                // onSelectedPropertyChange={handleOnSelectedPropertyChange}
-              />
-              ))}
-            {/* <LayerLegend position="bottomright" /> */}
-            {/* <ReportMarkerLegend position="bottomleft" /> */}
-
-            {/* {observations.map((observation) => (
-              <ObservationMarker key={observation.id} observation={observation} />
-            ))} */}
-
-            {/* {properties.map((property) => (
-              <PropertyLayer
-                key={property.id}
-                property={property}
-                onSelectedPropertyChange={handleOnSelectedPropertyChange}
-              />
-            ))} */}
-
-            {/* {parcels.map((parcel) => (
-              <ParcelLayer key={parcel.id} parcel={parcel} />
-            ))} */}
+            <LayersControl position="topright">
+              <LayersControl.Overlay name="PUT">
+                <LayerGroup>
+                  {landUses == null ? null : landUses.map((landUse) => (
+                    <LandUseLayer
+                      key={landUse.id}
+                      landUse={landUse}
+                      // onSelectedPropertyChange={handleOnSelectedPropertyChange}
+                    />
+                  ))}
+                </LayerGroup>
+              </LayersControl.Overlay>
+              
+              <LayersControl.Overlay name="Lineas de Transmission">
+                <LayerGroup>
+                  {transmissionLines == null ? null : transmissionLines.map((landUse) => (
+                    <TransmissionLineLayer
+                      key={landUse.id}
+                      landUse={landUse}
+                      // onSelectedPropertyChange={handleOnSelectedPropertyChange}
+                    />
+                  ))}
+                </LayerGroup>
+              </LayersControl.Overlay>
+              
+              <LayersControl.Overlay name="Carreteras">
+                <LayerGroup>
+                  {streets == null ? null : streets.map((street) => (
+                    <StreetLayer
+                      key={street.id}
+                      street={street}
+                      // onSelectedPropertyChange={handleOnSelectedPropertyChange}
+                    />
+                  ))}
+                </LayerGroup>
+              </LayersControl.Overlay>
+                
+            </LayersControl>
           </MapContainer>
         </div>
       </div>

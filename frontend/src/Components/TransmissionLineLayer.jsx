@@ -8,10 +8,10 @@ import { GeoJSON, useMap } from 'react-leaflet';
 // TODO: maybe randomize this thing?
 const setColor = () => {
   return {
-    weight: 5,
+    weight: 2.5,
     stroke: true,
-    color: 'green',
-    fillColor: 'green',
+    color: '#e63c14',
+    lineJoin: 'square'
   };
 };
 

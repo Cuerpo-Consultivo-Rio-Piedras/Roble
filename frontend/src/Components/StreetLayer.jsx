@@ -10,8 +10,8 @@ const setColor = () => {
   return {
     weight: 3,
     stroke: true,
-    color: 'black',
-    fillColor: 'black',
+    color: '#1f3a93',
+    fillColor: '#1f3a93',
   };
 };
 
