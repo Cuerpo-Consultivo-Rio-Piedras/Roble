@@ -5,12 +5,15 @@ import React, { useEffect, useState } from 'react';
 
 import { MapContainer, TileLayer } from 'react-leaflet';
 import SideBar from './Components/SideBar';
-import POIMarker from './Components/POIMarker'
+import LandUseLayer from './Components/LandUseLayer';
+// import POIMarker from './Components/POIMarker'
 import { DEFAULT_MAP_CENTER, DEFAULT_MAP_ZOOM } from './constants';
 import PositionResetControl from './Components/PositionResetControl';
 import { API } from './Api';
 
 import 'leaflet/dist/leaflet.css';
+import TransmissionLineLayer from './Components/TransmissionLineLayer';
+import StreetLayer from './Components/StreetLayer';
 
 const api = new API()
 
@@ -20,20 +23,41 @@ function App() {
   // const [isSidebarLoading, setIsSidebarLoading] = useState(false);
   // const isSelected = selectedProperty !== null;
   const [isLoading, setIsLoading] = useState(true);
-  const [pois, setpois] = useState(null)
+  const [landUses, setLandUses] = useState(null);
+  const [transmissionLines, setTransmissionLines] = useState(null);
+  const [streets, setStreets] = useState(null);
 
   useEffect(() => {
     const fetch = async () => {
-      const results = await api.listPOIs();
-      console.log('api results', results)
-      setpois(results);
-      setIsLoading(false);
+      const results = await api.listLandUse();
+      setLandUses(results);
+      // setIsLoading(false);
     };
 
     fetch();
   }, []);
 
+  useEffect(() => {
+    const fetch = async () => {
+      const results = await api.listTransmissionLines();
+      console.log('results', results)
+      setTransmissionLines(results);
+      // setIsLoading(false);
+    };
 
+    fetch();
+  }, []);
+  
+  useEffect(() => {
+    const fetch = async () => {
+      const results = await api.listStreets();
+      console.log('results', results)
+      setStreets(results);
+      // setIsLoading(false);
+    };
+
+    fetch();
+  }, []);
   return (
     <div className="flex flex-col w-screen h-screen">
       <div className="bg-slate-300 px-2 py-1">
@@ -59,7 +83,29 @@ function App() {
               className="map-tiles"
             />
             <PositionResetControl position="topright" />
-            {isLoading ? null : pois.map(poi => {return (<POIMarker poi={poi} POIMarker/>)})}
+            {/* {isLoading ? null : pois.map(poi => {return (<POIMarker poi={poi} POIMarker/>)})} */}
+            {landUses == null ? null : landUses.map((landUse) => (
+              <LandUseLayer
+                key={landUse.id}
+                landUse={landUse}
+                // onSelectedPropertyChange={handleOnSelectedPropertyChange}
+              />
+            ))}
+
+            {transmissionLines == null ? null : transmissionLines.map((landUse) => (
+              <TransmissionLineLayer
+                key={landUse.id}
+                landUse={landUse}
+                // onSelectedPropertyChange={handleOnSelectedPropertyChange}
+              />
+              ))}
+            {streets == null ? null : streets.map((street) => (
+              <StreetLayer
+                key={street.id}
+                street={street}
+                // onSelectedPropertyChange={handleOnSelectedPropertyChange}
+              />
+              ))}
             {/* <LayerLegend position="bottomright" /> */}
             {/* <ReportMarkerLegend position="bottomleft" /> */}
 
