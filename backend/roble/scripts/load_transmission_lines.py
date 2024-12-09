@@ -11,9 +11,10 @@ import shapely
 
 import unicodedata
 from api.constants import RP_AOI
+print("aca")
 
-
-STORE_PATH = Path(__file__).resolve().parent.parent.parent.parent / "static"
+STORE_PATH = Path(__file__).resolve().parent.parent.parent / "static"
+print(STORE_PATH)
 FILE_PATH = STORE_PATH / "38kv_transmission_lines"
 
 def normalize_polygons(raw_gdf: gpd.GeoDataFrame, crs: int = 6566) -> gpd.GeoDataFrame:

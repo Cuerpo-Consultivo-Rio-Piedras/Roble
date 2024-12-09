@@ -13,8 +13,10 @@ import unicodedata
 from api.constants import RP_AOI
 
 
-STORE_PATH = Path(__file__).resolve().parent.parent.parent.parent / "static"
+STORE_PATH = Path(__file__).resolve().parent.parent.parent / "static"
 FILE_PATH = STORE_PATH / "segment_data"
+print("file path", FILE_PATH)
+print(STORE_PATH)
 
 def strip_accents(text: str) -> str:
     """

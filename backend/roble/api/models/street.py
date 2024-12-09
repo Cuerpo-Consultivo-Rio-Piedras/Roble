@@ -4,5 +4,5 @@ from django.contrib.gis.db import models
 
 class StreetSegment(models.Model):
     segment_id = models.FloatField()
-    fe_name = models.CharField()
+    fe_name = models.CharField(null=True)
     geometry = models.GeometryField()

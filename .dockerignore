@@ -1,4 +1,6 @@
-Dockerfile
+Dockerfile.backend
+Dockerfile.frontend
 .git
 .gitignore
 .dockerignore
+notebook.ipynb

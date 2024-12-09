@@ -3,7 +3,7 @@ FROM python:3.9.18-alpine
 ENV PYTHONUNBUFFERED 1
 
 # Set the working directory
-WORKDIR /usr/src/app
+WORKDIR /app
 
 # Install server dependencies
 # See more here: https://docs.djangoproject.com/en/5.0/ref/contrib/gis/install/geolibs/#installing-geospatial-libraries
@@ -32,8 +32,9 @@ RUN apk add --no-cache \
 
 # Install app dependencies
 RUN pip install --upgrade pip
-COPY ./backend/requirements.txt .
+COPY ./backend/requirements.txt ./
+COPY ./.env ./
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the project code into the container
-COPY ./backend .
+COPY ./backend ./

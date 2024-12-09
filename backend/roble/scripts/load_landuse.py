@@ -12,7 +12,7 @@ import shapely
 import unicodedata
 
 
-STORE_PATH = Path(__file__).resolve().parent.parent.parent.parent / "static"
+STORE_PATH = Path(__file__).resolve().parent.parent.parent / "static"
 FILE_PATH = STORE_PATH / "plan_uso_de_terreno"
 
 def strip_accents(text: str) -> str:
