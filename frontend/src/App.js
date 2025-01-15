@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { MapContainer, TileLayer, LayersControl, LayerGroup } from 'react-leaflet';
+import { MapContainer, TileLayer, LayersControl, LayerGroup, GeoJSON } from 'react-leaflet';
 import SideBar from './Components/SideBar';
 import LandUseLayer from './Components/LandUseLayer';
 import { DEFAULT_MAP_CENTER, DEFAULT_MAP_ZOOM } from './constants';
@@ -11,46 +11,31 @@ import 'leaflet/dist/leaflet.css';
 import TransmissionLineLayer from './Components/TransmissionLineLayer';
 import StreetLayer from './Components/StreetLayer';
 
+
 const api = new API()
 
 function App() {
-  // const [isSidebarLoading, setIsSidebarLoading] = useState(false);
-  // const isSelected = selectedProperty !== null;
-  const [isLoading, setIsLoading] = useState(true);
-  const [landUses, setLandUses] = useState(null);
-  const [transmissionLines, setTransmissionLines] = useState(null);
   const [streets, setStreets] = useState(null);
+  const [parcels, setParcels] = useState(null);
 
   useEffect(() => {
-    const fetch = async () => {
-      const results = await api.listLandUse();
-      setLandUses(results);
-      // setIsLoading(false);
+    const fetchParcels = async () => {
+      const results = await fetch("parcel.geojson");
+      const parcels = await results.json()
+      setParcels(parcels);
     };
 
-    fetch();
-  }, []);
-
-  useEffect(() => {
-    const fetch = async () => {
-      const results = await api.listTransmissionLines();
-      console.log('results', results)
-      setTransmissionLines(results);
-      // setIsLoading(false);
-    };
-
-    fetch();
+    fetchParcels();
   }, []);
   
   useEffect(() => {
-    const fetch = async () => {
-      const results = await api.listStreets();
-      console.log('results', results)
-      setStreets(results);
-      // setIsLoading(false);
+    const fetchData = async () => {
+      const results = await fetch("street_segment.geojson");
+      const streetSegments = await results.json()
+      setStreets(streetSegments);
     };
 
-    fetch();
+    fetchData();
   }, []);
   return (
     <div className="flex flex-col w-screen h-screen">
@@ -66,48 +51,30 @@ function App() {
             center={DEFAULT_MAP_CENTER}
             zoom={DEFAULT_MAP_ZOOM}
             className="h-full w-full outline-none"
-            maxZoom={25}
+            // minZoom={16}
+            // maxZoom={18}
             >
             <TileLayer
-              url="https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
+              url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
               className="map-tiles"
             />
             <PositionResetControl position="topright" />
-            <LayersControl position="topright">
-              <LayersControl.Overlay name="PUT">
-                <LayerGroup>
-                  {landUses == null ? null : landUses.map((landUse) => (
-                    <LandUseLayer
-                      key={landUse.id}
-                      landUse={landUse}
-                      // onSelectedPropertyChange={handleOnSelectedPropertyChange}
-                    />
-                  ))}
-                </LayerGroup>
-              </LayersControl.Overlay>
-              
-              <LayersControl.Overlay name="Lineas de Transmission">
-                <LayerGroup>
-                  {transmissionLines == null ? null : transmissionLines.map((landUse) => (
-                    <TransmissionLineLayer
-                      key={landUse.id}
-                      landUse={landUse}
-                      // onSelectedPropertyChange={handleOnSelectedPropertyChange}
-                    />
-                  ))}
-                </LayerGroup>
+            <LayersControl position="topright">              
+              <LayersControl.Overlay name="Parcelas">
+                  {parcels && (
+                    <GeoJSON key={1} data={parcels}>
+
+                    </GeoJSON>)
+                  }
               </LayersControl.Overlay>
               
               <LayersControl.Overlay name="Carreteras">
-                <LayerGroup>
-                  {streets == null ? null : streets.map((street) => (
-                    <StreetLayer
-                      key={street.id}
-                      street={street}
-                      // onSelectedPropertyChange={handleOnSelectedPropertyChange}
-                    />
-                  ))}
-                </LayerGroup>
+                  {streets && (
+                    <GeoJSON key={2} data={streets}>
+
+                    </GeoJSON>)
+                  }
+                  
               </LayersControl.Overlay>
                 
             </LayersControl>
