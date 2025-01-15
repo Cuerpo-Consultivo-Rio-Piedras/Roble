@@ -2,17 +2,11 @@ import React, { useEffect, useState } from 'react';
 
 import { MapContainer, TileLayer, LayersControl, LayerGroup, GeoJSON } from 'react-leaflet';
 import SideBar from './Components/SideBar';
-import LandUseLayer from './Components/LandUseLayer';
 import { DEFAULT_MAP_CENTER, DEFAULT_MAP_ZOOM } from './constants';
 import PositionResetControl from './Components/PositionResetControl';
-import { API } from './Api';
 
 import 'leaflet/dist/leaflet.css';
-import TransmissionLineLayer from './Components/TransmissionLineLayer';
-import StreetLayer from './Components/StreetLayer';
 
-
-const api = new API()
 
 function App() {
   const [streets, setStreets] = useState(null);
