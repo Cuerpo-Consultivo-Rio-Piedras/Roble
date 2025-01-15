@@ -24,7 +24,7 @@ const LeafletControl = ({ position, children, className }) => {
     const container = document.querySelector('.leaflet-control-container ' + querySelectorSuffix);
 
     // We should put the attribution after the controls
-    if (position == 'bottomright' || position === 'bottomleft') {
+    if (position === 'bottomright' || position === 'bottomleft') {
       container.prepend(ref.current);
     } else {
       container.appendChild(ref.current);
