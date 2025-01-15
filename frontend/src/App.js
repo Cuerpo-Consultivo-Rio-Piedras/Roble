@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { MapContainer, TileLayer, LayersControl, LayerGroup, GeoJSON } from 'react-leaflet';
+import { MapContainer, TileLayer, LayersControl, GeoJSON } from 'react-leaflet';
 import SideBar from './Components/SideBar';
 import { DEFAULT_MAP_CENTER, DEFAULT_MAP_ZOOM } from './constants';
 import PositionResetControl from './Components/PositionResetControl';
