@@ -22,7 +22,7 @@
   },
   "eslintConfig": {
     "rules": {
-      "treatWarningsAsErrors": false
+      "treatWarningsAsErrors": 0
     },
     "extends": [
       "react-app",
