@@ -1,7 +1,6 @@
 import React from 'react';
 
 import classNames from 'classnames';
-import { Loader2 } from 'lucide-react';
 
 // import { Permit, Project, Property } from '../types';
 

@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 
 import classNames from 'classnames';
-import { ControlPosition } from 'leaflet';
 
 const POSITION_CLASSES = {
   bottomleft: 'leaflet-bottom leaflet-left',

@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { ControlPosition } from 'leaflet';
 import { RefreshCw } from 'lucide-react';
 import { useMap } from 'react-leaflet';
 
