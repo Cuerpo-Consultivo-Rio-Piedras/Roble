@@ -11,6 +11,8 @@ import 'leaflet/dist/leaflet.css';
 function App() {
   const [streets, setStreets] = useState(null);
   const [parcels, setParcels] = useState(null);
+  const [carParking, setCarParking] = useState(null);
+  const [route, setRoute] = useState(null);
 
   useEffect(() => {
     const fetchParcels = async () => {
@@ -31,10 +33,31 @@ function App() {
 
     fetchData();
   }, []);
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const results = await fetch("car_parking.geojson");
+  //     const carParking = await results.json()
+  //     setCarParking(carParking);
+  //   };
+
+  //   fetchData();
+  // }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const results = await fetch("route.geojson");
+      const routeData = await results.json()
+      setRoute(routeData);
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <div className="flex flex-col w-screen h-screen">
-      <div className="bg-slate-300 px-2 py-1">
-        <p className="text-3xl font-bold">Roble</p>
+      <div className="bg-main px-2 py-1">
+        <p className="text-3xl font-bold text-white">Roble</p>
       </div>
       <div className="flex md:flex-row flex-col-reverse h-full">
       <SideBar
@@ -49,14 +72,14 @@ function App() {
             // maxZoom={18}
             >
             <TileLayer
-              url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
+              url='https://{s}.basemaps.cartocdn.com/rastertiles/voyager_labels_under/{z}/{x}/{y}{r}.png'
               className="map-tiles"
             />
             <PositionResetControl position="topright" />
             <LayersControl position="topright">              
               <LayersControl.Overlay name="Parcelas">
                   {parcels && (
-                    <GeoJSON key={1} data={parcels}>
+                    <GeoJSON key={1} data={parcels} style={{"color": "#001d3d", "opacity": 0.25, "fillColor": "#d00000"}}>
 
                     </GeoJSON>)
                   }
@@ -64,13 +87,20 @@ function App() {
               
               <LayersControl.Overlay name="Carreteras">
                   {streets && (
-                    <GeoJSON key={2} data={streets}>
+                    <GeoJSON key={2} data={streets} style={{"color": "#001d3d", "opacity": 0.8}}>
 
                     </GeoJSON>)
                   }
-                  
               </LayersControl.Overlay>
-                
+              {/* TODO: Add layer with car parking data*/}
+              <LayersControl.Overlay name="Ruta de Comerciantes">
+                  {streets && (
+                    <GeoJSON key={2} data={route} style={{"color": "#001d3d", "opacity": 1}}>
+
+                    </GeoJSON>)
+                  }
+              </LayersControl.Overlay>
+              {/* TODO: Add layer with route along the community*/}
             </LayersControl>
           </MapContainer>
         </div>
